@@ -34,10 +34,11 @@ from sklearn.cross_validation import train_test_split
 # **Setting up the folder paths in which the dataset is presetn**
 # 
 
-neg_deceptive_folder_path = 'op_spam_v1.4\\negative_polarity\\deceptive_from_MTurk\\'
-neg_true_folder_path = 'op_spam_v1.4\\negative_polarity\\truthful_from_Web\\'
-pos_deceptive_folder_path = 'op_spam_v1.4\\positive_polarity\\deceptive_from_MTurk\\'
-pos_true_folder_path = 'op_spam_v1.4\\positive_polarity\\truthful_from_TripAdvisor\\'
+pos_deceptive_folder_path = 'op_spam_v1.4/positive_polarity/deceptive_from_MTurk/'
+pos_true_folder_path = 'op_spam_v1.4/positive_polarity/truthful_from_TripAdvisor/'
+
+neg_deceptive_folder_path = 'op_spam_v1.4/negative_polarity/deceptive_from_MTurk/'
+neg_true_folder_path = 'op_spam_v1.4/negative_polarity/truthful_from_Web/'
 
 
 # **Initialising the lists in which the polarity, review and either it's fake or true will be stored**
@@ -52,30 +53,34 @@ spamity_class =[]
 
 
 for i in range(1,6):
-    insideptru = pos_true_folder_path + 'fold' + str(i) 
-    insidepdec = pos_deceptive_folder_path + 'fold' + str(i)
-    insidentru = neg_true_folder_path + 'fold' + str(i) 
-    insidendec = neg_deceptive_folder_path + 'fold' + str(i) 
-    pos_list = []
-    for data_file in sorted(os.listdir(insidendec)):
-        polarity_class.append('negtive')
+    
+    insidendec = neg_deceptive_folder_path + 'fold' + str(i)  # negative and fake
+    insidentru = neg_true_folder_path + 'fold' + str(i) # negative and true
+
+    insidepdec = pos_deceptive_folder_path + 'fold' + str(i) # positive and fake
+    insideptru = pos_true_folder_path + 'fold' + str(i) # positive and true
+    
+    pos_list = [] # positive list ?
+    
+    for data_file in sorted(os.listdir(insidendec)): # negative and fake
+        polarity_class.append('negative')
         spamity_class.append(str(data_file.split('_')[0]))
         with open(os.path.join(insidendec, data_file)) as f:
                 contents = f.read()
                 reviews.append(contents)
-    for data_file in sorted(os.listdir(insidentru)):
+    for data_file in sorted(os.listdir(insidentru)): # negative and true
         polarity_class.append('negative')
         spamity_class.append(str(data_file.split('_')[0]))
         with open(os.path.join(insidentru, data_file)) as f:
                 contents = f.read()
                 reviews.append(contents)
-    for data_file in sorted(os.listdir(insidepdec)):
+    for data_file in sorted(os.listdir(insidepdec)): # positive and fake
         polarity_class.append('positive')
         spamity_class.append(str(data_file.split('_')[0]))
         with open(os.path.join(insidepdec, data_file)) as f:
                 contents = f.read()
                 reviews.append(contents)
-    for data_file in sorted(os.listdir(insideptru)):
+    for data_file in sorted(os.listdir(insideptru)): # positive and true
         polarity_class.append('positive')
         spamity_class.append(str(data_file.split('_')[0]))
         with open(os.path.join(insideptru, data_file)) as f:
